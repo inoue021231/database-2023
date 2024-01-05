@@ -1,15 +1,14 @@
-import { useState } from 'react';
-import Calendar from './components/Calendar';
+import { useState } from "react";
+import Calendar from "./components/Calendar";
 
 function App() {
-  const [tododata, setTododata] = useState([
-    {
+  const [tododata, setTododata] = useState([{}]);
 
-    },
-  ]);
-  return (
-    <Calendar />
-  );
+  const [selectDate, setSelectDate] = useState(new Date());
+
+  console.log(selectDate);
+
+  return <Calendar setSelectDate={setSelectDate} />;
 }
 
 export default App;

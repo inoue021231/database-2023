@@ -5,12 +5,16 @@ import { DateCalendar } from '@mui/x-date-pickers/DateCalendar';
 import dayjs from 'dayjs';
 
 function Calendar(props) {
-  const [data, setData] = useState(dayjs(new Date()));
+  const {setSelectDate} = props;
+  const handleChangeDate = (newValue) => {
+    setSelectDate(newValue);
+  }
 
+  /* console.log(selectDate); */
   return (
     <div>
         <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <DateCalendar onChange={(newValue) => console.log(newValue.$d)} />
+            <DateCalendar onChange={(newValue) => handleChangeDate(newValue.$d)} />
         </LocalizationProvider>
     </div>
     
