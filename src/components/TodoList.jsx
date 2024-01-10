@@ -11,6 +11,7 @@ import PlaylistAddIcon from "@mui/icons-material/PlaylistAdd";
 import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
 import CheckIcon from "@mui/icons-material/Check";
+import { deleteTododata, getTododata, postTododata } from "../api";
 
 const ListItemWrapper = styled(ListItem)(({ theme }) => ({
   backgroundColor: theme.palette.background.paper,
@@ -22,45 +23,35 @@ const TodoList = (props) => {
   const [newText, setNewText] = useState("");
 
   const checkDate = (date) => {
-    if (date.getFullYear() !== selectDate.getFullYear()) return false;
-    if (date.getMonth() !== selectDate.getMonth()) return false;
-    if (date.getDate() !== selectDate.getDate()) return false;
+    const newDate = new Date(date);
+    if (newDate.getFullYear() !== selectDate.getFullYear()) return false;
+    if (newDate.getMonth() !== selectDate.getMonth()) return false;
+    if (newDate.getDate() !== selectDate.getDate()) return false;
     return true;
   };
 
   const handleAdd = () => {
-    // 現状使われているIDを抽出
-    const todayId = tododata
-      .filter((item) => checkDate(item.date))
-      .map((item) => item.id % 10000)
-      .sort((a, b) => a - b);
-
     const year = selectDate.getFullYear();
     const month = String(selectDate.getMonth() + 1).padStart(2, "0");
     const day = String(selectDate.getDate()).padStart(2, "0");
 
-    let newId = 1;
-    while (newId <= 9999) {
-      if (!todayId.find((item) => item === newId)) {
-        newId = String(newId).padStart(4, "0");
-        const newData = {
-          id: parseInt(`${year}${month}${day}${newId}`),
-          text: newText,
-          status: "undone",
-          date: selectDate,
-        };
-        setTododata([...tododata, newData]);
-        break;
-      } else {
-        newId++;
-      }
-    }
-    console.log(tododata);
+    (async () => {
+      await postTododata({
+        text: newText,
+        date: `${year}-${month}-${day}`,
+        status: "undone",
+      });
+      const data = await getTododata();
+      setTododata(data);
+    })();
   };
 
   const handleDelete = (id) => {
-    const updatedItems = tododata.filter((item) => item.id !== id);
-    setTododata(updatedItems);
+    (async () => {
+      await deleteTododata(id);
+      const data = await getTododata();
+      setTododata(data);
+    })();
   };
 
   return (
