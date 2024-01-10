@@ -9,7 +9,18 @@ export function getTododata() {
 }
 
 export function postTododata(data) {
-  return request("/tododata", {
+  return request("/tododata/create", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  });
+}
+
+export function updateTododata(data) {
+  console.log(data);
+  return request("/tododata/update", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
