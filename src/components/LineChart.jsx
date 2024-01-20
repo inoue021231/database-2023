@@ -27,10 +27,6 @@ ChartJS.register(
   Title
 );
 
-function getRandomInt(max) {
-  return Math.floor(Math.random() * max);
-}
-
 const labels = Array(31)
   .fill()
   .map((_, index) => index + 1);
@@ -68,9 +64,9 @@ const data = {
 export default function LineChart(props) {
   const { tododata, selectDate } = props;
   const chartRef = useRef(null);
-  console.log(
+  /* console.log(
     new Date(selectDate.getFullYear(), selectDate.getMonth() + 1, 0).getDate()
-  );
+  ); */
 
   let undoneArray = Array(labels.length).fill(0);
   let progressArray = Array(labels.length).fill(0);
@@ -118,8 +114,10 @@ export default function LineChart(props) {
   };
 
   return (
-    <div className="App">
-      <Chart ref={chartRef} type={"bar"} data={data} options={options} />
+    <div>
+      {tododata.length !== 0 && (
+        <Chart ref={chartRef} type={"bar"} data={data} options={options} />
+      )}
     </div>
   );
 }

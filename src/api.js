@@ -38,3 +38,27 @@ export function deleteTododata(id) {
     body: JSON.stringify({}),
   });
 }
+
+export function getUser() {
+  return request("/user");
+}
+
+export function postUser(data) {
+  return request("/user/create", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  });
+}
+
+export function getTaskdata(data) {
+  return request("/taskdata", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  });
+}

@@ -16,6 +16,7 @@ import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import CheckIcon from "@mui/icons-material/Check";
 import {
   deleteTododata,
+  getTaskdata,
   getTododata,
   postTododata,
   updateTododata,
@@ -26,7 +27,7 @@ const ListItemWrapper = styled(ListItem)(({ theme }) => ({
 }));
 
 const TodoList = (props) => {
-  const { tododata, setTododata, selectDate } = props;
+  const { tododata, setTododata, selectDate, user } = props;
 
   const [newText, setNewText] = useState("");
 
@@ -39,10 +40,49 @@ const TodoList = (props) => {
   };
 
   const Icon = (prop) => {
-    const { status } = prop;
-    const undone = <ArrowRightIcon></ArrowRightIcon>;
-    const progress = <AccessTimeIcon></AccessTimeIcon>;
-    const done = <CheckIcon></CheckIcon>;
+    const { status, id } = prop;
+    const undone = (
+      <Avatar
+        sx={{
+          backgroundColor: "lightgray",
+        }}
+      >
+        <IconButton
+          aria-label="update"
+          onClick={() => handleUpdateStatus(status, id)}
+        >
+          <ArrowRightIcon></ArrowRightIcon>
+        </IconButton>
+      </Avatar>
+    );
+    const progress = (
+      <Avatar
+        sx={{
+          backgroundColor: "skyblue",
+        }}
+      >
+        <IconButton
+          aria-label="update"
+          onClick={() => handleUpdateStatus(status, id)}
+        >
+          <AccessTimeIcon></AccessTimeIcon>
+        </IconButton>
+      </Avatar>
+    );
+    const done = (
+      <Avatar
+        sx={{
+          backgroundColor: "lightgreen",
+        }}
+      >
+        <IconButton
+          aria-label="update"
+          onClick={() => handleUpdateStatus(status, id)}
+        >
+          <CheckIcon></CheckIcon>
+        </IconButton>
+      </Avatar>
+    );
     if (status === "undone") {
       return undone;
     } else if (status === "progress") {
@@ -63,7 +103,7 @@ const TodoList = (props) => {
     }
     (async () => {
       await updateTododata({ status: newStatus, id });
-      const data = await getTododata();
+      const data = await getTaskdata({ userID: user.id });
       setTododata(data);
     })();
   };
@@ -75,30 +115,33 @@ const TodoList = (props) => {
     const day = String(selectDate.getDate()).padStart(2, "0");
 
     (async () => {
-      await postTododata({
-        text: newText,
-        date: `${year}-${month}-${day}`,
-        status: "undone",
-      });
-      const data = await getTododata();
-      setTododata(data);
+      if (user) {
+        await postTododata({
+          text: newText,
+          date: `${year}-${month}-${day}`,
+          status: "undone",
+          userID: user.id,
+        });
+        const data = await getTaskdata({ userID: user.id });
+        setTododata(data);
+      }
     })();
   };
 
   const handleDelete = (id) => {
     (async () => {
       await deleteTododata(id);
-      const data = await getTododata();
+      const data = await getTaskdata({ userID: user.id });
       setTododata(data);
     })();
   };
 
   return (
     <div>
-      <h2>
+      <div style={{ fontSize: "20px", marginTop: "10px" }}>
         {selectDate.getFullYear()}年{selectDate.getMonth() + 1}月
         {selectDate.getDate()}日
-      </h2>
+      </div>
       <List
         sx={{
           backgroundColor: "lightgray",
@@ -115,16 +158,12 @@ const TodoList = (props) => {
           return checkDate(item.date) ? (
             <ListItemWrapper key={index}>
               <ListItemAvatar>
-                <Avatar>
-                  <IconButton
-                    aria-label="update"
-                    onClick={() => handleUpdateStatus(item.status, item.id)}
-                  >
-                    <Icon status={item.status}></Icon>
-                  </IconButton>
-                </Avatar>
+                <Icon status={item.status} id={item.id}></Icon>
               </ListItemAvatar>
-              <ListItemText primary={item.text} />
+              <ListItemText
+                primary={item.text}
+                onClick={() => handleUpdateStatus(item.status, item.id)}
+              />
               <ListItemSecondaryAction>
                 <IconButton
                   edge="end"
