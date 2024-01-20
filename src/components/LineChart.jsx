@@ -14,59 +14,58 @@ import {
 } from "chart.js";
 import { Chart } from "react-chartjs-2";
 
-ChartJS.register(
-  LinearScale,
-  CategoryScale,
-  BarElement,
-  PointElement,
-  LineElement,
-  Legend,
-  Tooltip,
-  LineController,
-  BarController,
-  Title
-);
-
-const labels = Array(31)
-  .fill()
-  .map((_, index) => index + 1);
-
-const data = {
-  labels,
-  datasets: [
-    {
-      type: "line",
-      label: "未達成",
-      borderColor: "lightgray",
-      borderWidth: 2,
-      fill: false,
-      yAxisID: "y",
-    },
-    {
-      type: "line",
-      label: "作業中",
-      borderColor: "skyblue",
-      borderWidth: 2,
-      fill: false,
-      yAxisID: "y",
-    },
-    {
-      type: "line",
-      label: "達成",
-      borderColor: "lightgreen",
-      borderWidth: 2,
-      fill: false,
-      yAxisID: "y",
-    },
-  ],
-};
-
 export default function LineChart(props) {
   const { tododata, selectDate } = props;
   const chartRef = useRef(null);
-  /* console.log(
+
+  ChartJS.register(
+    LinearScale,
+    CategoryScale,
+    BarElement,
+    PointElement,
+    LineElement,
+    Legend,
+    Tooltip,
+    LineController,
+    BarController,
+    Title
+  );
+
+  const labels = Array(
     new Date(selectDate.getFullYear(), selectDate.getMonth() + 1, 0).getDate()
-  ); */
+  )
+    .fill()
+    .map((_, index) => index + 1);
+
+  const data = {
+    labels,
+    datasets: [
+      {
+        type: "line",
+        label: "未達成",
+        borderColor: "lightgray",
+        borderWidth: 2,
+        fill: false,
+        yAxisID: "y",
+      },
+      {
+        type: "line",
+        label: "作業中",
+        borderColor: "skyblue",
+        borderWidth: 2,
+        fill: false,
+        yAxisID: "y",
+      },
+      {
+        type: "line",
+        label: "達成",
+        borderColor: "lightgreen",
+        borderWidth: 2,
+        fill: false,
+        yAxisID: "y",
+      },
+    ],
+  };
 
   let undoneArray = Array(labels.length).fill(0);
   let progressArray = Array(labels.length).fill(0);
@@ -91,7 +90,7 @@ export default function LineChart(props) {
     chartRef.current.data.datasets[2].data = doneArray;
 
     chartRef.current.update();
-  }, [tododata]);
+  }, [tododata, selectDate]);
 
   const options = {
     plugins: {
@@ -116,7 +115,15 @@ export default function LineChart(props) {
   return (
     <div>
       {tododata.length !== 0 && (
-        <Chart ref={chartRef} type={"bar"} data={data} options={options} />
+        <div>
+          <div style={{ textAlign: "center", fontSize: "15px" }}>
+            {selectDate.getFullYear() +
+              "年" +
+              (selectDate.getMonth() + 1) +
+              "月"}
+          </div>
+          <Chart ref={chartRef} type={"bar"} data={data} options={options} />
+        </div>
       )}
     </div>
   );

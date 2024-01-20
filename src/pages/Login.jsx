@@ -37,7 +37,6 @@ const Login = (props) => {
         const name = data.filter(
           (item) => item.userID === userID && item.userPassword === userPassword
         )[0].userName;
-        console.log(name);
         setUser({ id: userID, name });
         navigate("/list");
       }
@@ -51,7 +50,7 @@ const Login = (props) => {
           elevation={3}
           sx={{
             p: 4,
-            height: "70vh",
+            height: "80vh",
             width: "280px",
             m: "20px auto",
           }}
@@ -65,7 +64,7 @@ const Login = (props) => {
             <Avatar sx={{ bgcolor: teal[400] }}>
               <LockOutlinedIcon />
             </Avatar>
-            <Typography variant={"h5"} sx={{ m: "30px" }}>
+            <Typography variant={"h7"} sx={{ m: "30px" }}>
               ログイン
             </Typography>
           </Grid>

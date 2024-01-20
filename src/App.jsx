@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
+import "./index.css";
 
 import Calendar from "./components/Calendar";
 import TodoList from "./components/TodoList";
@@ -22,12 +23,10 @@ function App() {
   useEffect(() => {
     (async () => {
       const todo = await getTododata();
-      console.log(todo);
       setTododata(todo);
     })();
     (async () => {
       const user = await getUser();
-      console.log(user);
     })();
   }, []);
 

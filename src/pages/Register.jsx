@@ -43,7 +43,7 @@ const Register = (props) => {
           elevation={3}
           sx={{
             p: 4,
-            height: "70vh",
+            height: "80vh",
             width: "280px",
             m: "20px auto",
           }}
@@ -57,7 +57,7 @@ const Register = (props) => {
             <Avatar sx={{ bgcolor: teal[400] }}>
               <LockOutlinedIcon />
             </Avatar>
-            <Typography variant={"h5"} sx={{ m: "30px" }}>
+            <Typography variant={"h7"} sx={{ m: "30px" }}>
               新規アカウント登録
             </Typography>
           </Grid>
