@@ -1,6 +1,5 @@
 import Calendar from "./../components/Calendar";
 import TodoList from "./../components/TodoList";
-//import { getTododata, postTododata } from "./api";
 import Header from "./../components/Header";
 import LineChart from "./../components/LineChart";
 
@@ -19,10 +18,10 @@ const List = (props) => {
     (async () => {
       if (!user) {
         navigate("/");
+      } else {
+        const data = await getTaskdata({ userID: user.id });
+        setTododata(data);
       }
-      const data = await getTaskdata({ userID: user.id });
-      setTododata(data);
-      console.log(data);
     })();
   }, []);
   return (

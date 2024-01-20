@@ -24,6 +24,10 @@ const Header = (props) => {
     setAnchorEl(null);
   };
 
+  const handleProfile = () => {
+    navigate("/profile");
+  };
+
   const handleLogout = () => {
     setUser(null);
     navigate("/");
@@ -62,7 +66,7 @@ const Header = (props) => {
               open={Boolean(anchorEl)}
               onClose={handleClose}
             >
-              <MenuItem onClick={handleClose}>アカウント情報</MenuItem>
+              <MenuItem onClick={handleProfile}>アカウント情報</MenuItem>
               <MenuItem onClick={handleLogout}>ログアウト</MenuItem>
             </Menu>
             {user.name}

@@ -7,12 +7,9 @@ import {
   Avatar,
   Box,
   Button,
-  Checkbox,
-  FormControlLabel,
   Grid,
   Link,
   Paper,
-  Stack,
   TextField,
   Typography,
 } from "@mui/material";

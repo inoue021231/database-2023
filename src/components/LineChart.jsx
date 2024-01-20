@@ -58,7 +58,7 @@ export default function LineChart(props) {
       },
       {
         type: "line",
-        label: "達成",
+        label: "達成済",
         borderColor: "lightgreen",
         borderWidth: 2,
         fill: false,

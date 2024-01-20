@@ -1,14 +1,9 @@
 import { useEffect, useState } from "react";
-import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "./index.css";
 
-import Calendar from "./components/Calendar";
-import TodoList from "./components/TodoList";
-import { getTododata, postTododata, getUser } from "./api";
-import Header from "./components/Header";
+import { getTododata } from "./api";
 
-import Box from "@mui/material/Box";
-import LineChart from "./components/LineChart";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Profile from "./pages/Profile";
@@ -19,14 +14,11 @@ function App() {
   const [selectDate, setSelectDate] = useState(new Date());
   const [user, setUser] = useState(null);
 
-  // undone: 未達成 progress:作業中 done:達成済み
+  // undone: 未達成 progress:作業中 done:達成済
   useEffect(() => {
     (async () => {
       const todo = await getTododata();
       setTododata(todo);
-    })();
-    (async () => {
-      const user = await getUser();
     })();
   }, []);
 
